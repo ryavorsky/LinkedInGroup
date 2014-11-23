@@ -1,0 +1,43 @@
+﻿<html>
+<head>
+
+    <title>Discussion graph</title>
+	<meta charset="utf-8"> 
+    <script type="text/javascript" src="Grapher2D.js"></script>
+    <script type="text/javascript" src="Graph.js"></script>
+    <script type="text/javascript" src="Specs.js"></script>
+    <script type="text/javascript" src="SvgGraph.js"></script>
+
+</head>
+
+<body onload="Start();">
+
+    <svg height="0px" width="0px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <radialGradient id="Gradient"
+                            fx="5%" fy="5%" r="65%"
+                            spreadMethod="pad">
+                <stop offset="0%" stop-color="#cccccc" stop-opacity="1" />
+                <stop offset="100%" stop-color="#557777" stop-opacity="1" />
+            </radialGradient>
+        </defs>
+    </svg>
+
+    <div style="width:800px">
+
+	<table class="layout2">
+		<tr>
+			<td bgcolor="#fff" onclick="StopMoving(1);">
+				<svg id="svg1" height="600px" width="600px" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
+			</td>
+			<td>
+				Осстановка/запуск по щелчку мышки. <br /><br />
+			</td>
+		</tr>
+	</table>
+
+ 
+    </div>
+</body>
+
+</html>

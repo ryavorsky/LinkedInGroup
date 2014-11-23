@@ -3,8 +3,8 @@ var todo = [];
 var keep_moving = true;
 
 
-function Start(){
-		
+function Start()
+{
 	BuildSvgGraph(1);
 	Move();
 }
@@ -18,7 +18,6 @@ function Move()
 
 function StopMoving(id){
 	keep_moving = !keep_moving;
-	alert(stop_move);
 };
 
 function MouseEvent(e){
@@ -151,11 +150,11 @@ function RebuildGraph(svg_graph)
 	}
 	for(i=0; i<svg_graph.g.graph.n; i++)
 	{
-		var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-		var title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-		title.textContent = svg_graph.labels_text[i];
-		c.appendChild(title);
-		c.setAttribute("fill", "url(#Gradient)");
+		var c = document.createElementNS("http://www.w3.org/2000/svg", "image");
+		c.setAttribute("width", "50");
+		c.setAttribute("height", "50");
+		c.setAttribute("style", "border: 1px solid black;");
+		c.setAttributeNS("http://www.w3.org/1999/xlink", "href", "pic/"+pic[i]);
 
 		svg.appendChild(c);
 		svg_graph.circs.push(c);
@@ -273,11 +272,9 @@ function Redraw(svg_graph)
 			circle_style ="stroke:" + circle_color + ";stroke-width:" + stroke_width + ";cursor:move;";
 		};
 
-		svg_graph.circs[i].setAttribute("style", circle_style);
-		
-		svg_graph.circs[i].setAttribute("cx", hw+v.px);
-		svg_graph.circs[i].setAttribute("cy", hh+v.py);
-		svg_graph.circs[i].setAttribute("r", svg_graph.nodes_size[i]);
+	
+		svg_graph.circs[i].setAttribute("x", hw+v.px);
+		svg_graph.circs[i].setAttribute("y", hh+v.py);
 		
 		dr = 4 + (svg_graph.labels_text[i].length - 1)*3;
 		svg_graph.labls[i].setAttribute("x", hw+v.px-dr);

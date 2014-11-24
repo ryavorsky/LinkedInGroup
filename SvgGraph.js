@@ -151,9 +151,11 @@ function RebuildGraph(svg_graph)
 	for(i=0; i<svg_graph.g.graph.n; i++)
 	{
 		var c = document.createElementNS("http://www.w3.org/2000/svg", "image");
-		c.setAttribute("width", "50");
-		c.setAttribute("height", "50");
-		c.setAttribute("style", "border: 1px solid black;");
+		level = Math.floor(Math.random()*9)/10.0 + 0.1;
+		if (Math.random() < 0.5){ level = 0.5 };
+		c.setAttribute("width", String(level*60));
+		c.setAttribute("height", String(level*60));
+		c.setAttribute("opacity", String(level));
 		c.setAttributeNS("http://www.w3.org/1999/xlink", "href", "pic/"+pic[i]);
 
 		svg.appendChild(c);
@@ -164,7 +166,7 @@ function RebuildGraph(svg_graph)
 		t.setAttribute("font-size", "13");
 		t.setAttribute("style",  "pointer-events:none;");
 		t.setAttribute("class", "GraphLabel");
-		t.textContent = svg_graph.labels_text[i];
+		t.textContent = "";//svg_graph.labels_text[i];
 		svg.appendChild(t);
 		svg_graph.labls.push(t);
 	}
@@ -228,11 +230,11 @@ function Redraw(svg_graph)
 		if (u_num == selected || v_num==selected){
 			brgh1 = String(5 + Math.round((55-5)*fraction));
 			brgh2 = String(10 + Math.round((55-10)*fraction));
-			line_color = "RGB(77," + brgh1 + "," + brgh2 + ")";
-			stroke_width = "1.3";
+			line_color = "white";//"RGB(77," + brgh1 + "," + brgh2 + ")";
+			stroke_width = "0.3";
 		} else {
-			line_color = "RGB(77,111,111)";		
-			stroke_width = "1";
+			line_color = "white";// "RGB(77,111,111)";		
+			stroke_width = "0.3";
 		};
 		
 		svg_graph.lines[i].setAttribute("style", "stroke:" + line_color + ";stroke-width:" + stroke_width);
@@ -247,38 +249,27 @@ function Redraw(svg_graph)
 	for(var i=0; i<g.graph.n; i++)
 	{
 		var v = g.vertices[i];
-		
-		if(g.is3D){
-			if (i==selected){
-				circle_color = "RGB(77,55,55)";
-				stroke_width = String(1.1 + fraction*0.2);
-			} else {
-				circle_color = "RGB(121,121,121)";	
-				for(edge=0; edge<num_edges; edge++)
-				{
-					var u_num = g.graph.edgesl[edge];
-					var v_num = g.graph.edgesr[edge];
-					if( ((u_num == selected && v_num == i) || (v_num == selected && u_num == i)) 
-						&& (sel_step < N_switch - delta) && (sel_step > delta) ){
-						circle_color = "RGB(210,255,255)";	
-					}
-				};
-				stroke_width = "1";
-			};
-			circle_style ="stroke:" + circle_color + ";stroke-width:" + stroke_width;
-		} else {
-			circle_color = "RGB(0,0,0)";		
-			stroke_width = "1";
-			circle_style ="stroke:" + circle_color + ";stroke-width:" + stroke_width + ";cursor:move;";
-		};
-
 	
 		svg_graph.circs[i].setAttribute("x", hw+v.px);
 		svg_graph.circs[i].setAttribute("y", hh+v.py);
+
+		level = Math.round(parseFloat(svg_graph.circs[i].getAttribute("opacity")) * 1000);
+		if (level >= 1000){	
+			level = 999; 
+		} else if (level == 500){
+			if(Math.random() < 0.005){ level = 502 }		
+		} else if (level < 500) { 
+			level = 500; 
+		} else if (level%2 == 0) {	
+			level = level + 2; 
+		} else if (level %2 == 1){	
+			level = level - 4; 
+		};
 		
-		dr = 4 + (svg_graph.labels_text[i].length - 1)*3;
-		svg_graph.labls[i].setAttribute("x", hw+v.px-dr);
-		svg_graph.labls[i].setAttribute("y", hh+v.py+5);
+		//if (i==2){alert(level)};
+		svg_graph.circs[i].setAttribute("width", String(level*0.06));
+		svg_graph.circs[i].setAttribute("height", String(level*0.06));
+		svg_graph.circs[i].setAttribute("opacity", String(level)*0.001);
 	}
 };
 
